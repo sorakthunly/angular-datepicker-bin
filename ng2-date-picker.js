@@ -1507,11 +1507,21 @@ class DatePickerComponent {
     }
     /**
      * @param {?} value
+     * @param {?=} inputElement
      * @return {?}
      */
-    onViewDateChange(value) {
-        if (value && (value.length === 2 || value.length === 5))
-            value += '-';
+    onViewDateChange(value, inputElement) {
+        if (inputElement) {
+            const /** @type {?} */ lastValue = value[value.length - 1];
+            if (value.length === 3 && lastValue !== '-') {
+                value = [value.slice(0, 2), value[value.length - 1]].join('-');
+                inputElement.value = [value.slice(0, 2), value[value.length - 1]].join('-');
+            }
+            if (value.length === 6 && lastValue !== '-') {
+                value = [value.slice(0, 5), value[value.length - 1]].join('-');
+                inputElement.value = [value.slice(0, 5), value[value.length - 1]].join('-');
+            }
+        }
         if (this.dayPickerService.isValidInputDateValue(value, this.componentConfig)) {
             this.selected = this.dayPickerService.convertInputValueToMomentArray(value, this.componentConfig);
             this.currentDateView = this.selected.length
@@ -1616,11 +1626,11 @@ DatePickerComponent.decorators = [
       <div class="dp-input-container"
            [hidden]="componentConfig.hideInputContainer"
            [attr.data-hidden]="componentConfig.hideInputContainer">
-        <input type="text"
+        <input type="text" #datePickerTextInput
                class="dp-picker-input"
                [placeholder]="placeholder"
                [ngModel]="inputElementValue"
-               (ngModelChange)="onViewDateChange($event)"
+               (ngModelChange)="onViewDateChange($event, datePickerTextInput)"
                (focus)="inputFocused()"
                (blur)="inputBlurred($event.target.value)"
                [readonly]="componentConfig.disableKeypress"

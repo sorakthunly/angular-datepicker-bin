@@ -98,7 +98,7 @@ export declare class DatePickerComponent implements OnChanges, OnInit, AfterView
     inputBlurred(value: string): void;
     showCalendars(): void;
     hideCalendar(): void;
-    onViewDateChange(value: string): void;
+    onViewDateChange(value: string, inputElement?: any): void;
     dateSelected(date: IDate, granularity: unitOfTime.Base, ignoreClose?: boolean): void;
     onDateClick(): void;
     onKeyPress(event: KeyboardEvent): void;
