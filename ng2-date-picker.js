@@ -1510,6 +1510,8 @@ class DatePickerComponent {
      * @return {?}
      */
     onViewDateChange(value) {
+        if (value && (value.length === 2 || value.length === 5))
+            value += '-';
         if (this.dayPickerService.isValidInputDateValue(value, this.componentConfig)) {
             this.selected = this.dayPickerService.convertInputValueToMomentArray(value, this.componentConfig);
             this.currentDateView = this.selected.length
